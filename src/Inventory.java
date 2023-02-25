@@ -17,13 +17,36 @@ public class Inventory {
         }   products.add(product);
     }
 
-    public void removeProduct(Product product) {
-        products.removeIf(p -> p.getName().equals(product.getName()));
+    public void removeProduct(String productName, int quantityToRemove) {
+        int productIndex = FindProductIndex(productName);
+        if (productIndex != -1) {
+            Product product = products.get(productIndex);
+            if (product.getQuantity() > quantityToRemove) {
+                product.setQuantity(product.getQuantity() - quantityToRemove);
+                FileManager.writeInventoryToFile(products);
+                System.out.println(quantityToRemove + " szt. produktu " + productName + " zostało usuniętych z magazynu.");
+            } else {
+                products.remove(productIndex);
+                FileManager.writeInventoryToFile(products);
+                System.out.println("Produkt " + productName + " został usunięty z magazynu.");
+            }
+        } else {
+            System.out.println("Nie ma produktu o nazwie " + productName + " w magazynie.");
+        }
     }
 
     public void printInventory() {
         for (Product product : products) {
             System.out.println(product.toString());
         }
+    }
+
+    public int FindProductIndex(String productName) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getName().equals(productName)) {
+                return i;
+            }
+        }
+        return -1; // zwrócenie wartości -1 oznacza, że produkt nie został znaleziony
     }
 }

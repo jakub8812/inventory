@@ -1,1 +1,2 @@
-mleko, 5
+mleko,5
+chleb,2000

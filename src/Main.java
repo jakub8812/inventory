@@ -16,7 +16,7 @@ public class Main {
         }
         System.out.println("Zalogowano jako " + login);
 
-        FileManager fileManager = new FileManager(INVENTORY_FILE);
+        FileManager fileManager = new FileManager();
         List<Product> products = fileManager.readInventoryFromFile();
         Inventory inventory = new Inventory(products);
 
@@ -46,12 +46,11 @@ public class Main {
                     System.out.println("Dodano produkt " + product.getName());
                     break;
                 case 3:
-                    System.out.print("Podaj nazwę produktu do usunięcia: ");
-                    String productName = scanner.nextLine();
-                    Product productToRemove = new Product(productName, 0);
-                    inventory.removeProduct(productToRemove);
-                    fileManager.writeInventoryToFile(inventory.products);
-                    System.out.println("Usunięto produkt " + productToRemove.getName());
+                    System.out.println("Podaj nazwę produktu:");
+                    name = scanner.nextLine();
+                    System.out.print("Podaj ilość produktu do usunięcia: ");
+                    int quantityToRemove = scanner.nextInt();
+                    inventory.removeProduct(name, quantityToRemove);
                     break;
                 case 0:
                     fileManager.writeInventoryToFile(inventory.products);
