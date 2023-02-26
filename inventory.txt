@@ -1,2 +1,5 @@
 mleko,5
 chleb,2000
+kubus,5
+platki,50
+maslo,150

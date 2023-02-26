@@ -2,7 +2,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static final String INVENTORY_FILE = "inventory.txt";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -11,14 +10,15 @@ public class Main {
         System.out.print("Podaj hasło: ");
         String password = scanner.nextLine();
         if (!EmployeeManager.validateEmployee(login, password)) {
+            //sprawdza, czy login i hasło są prawidłowe za pomocą metody validateEmployee z klasy EmployeeManager,
+            // wykonuje instrukcję, jeśli login i hasło są nieprawidłowe
             System.out.println("Niepoprawny login lub hasło. Wyjście z programu.");
             return;
         }
         System.out.println("Zalogowano jako " + login);
 
-        FileManager fileManager = new FileManager();
-        List<Product> products = fileManager.readInventoryFromFile();
-        Inventory inventory = new Inventory(products);
+        List<Product> products = FileManager.readInventoryFromFile(); //wczytuje listę produktów z pliku tekstowego przy pomocy metody readInventoryFromFile z klasy FileManager i przypisuje ją do zmiennej products
+        Inventory inventory = new Inventory(products); //tworzy nowy obiekt Inventory o nazwie inventory, używając listy produktów wczytanej z pliku tekstowego
 
         while (true) {
             System.out.println("\nCo chcesz zrobić?");
@@ -28,7 +28,7 @@ public class Main {
             System.out.println("0 - Wyjście");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // konsumujemy znak nowej linii
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -42,7 +42,7 @@ public class Main {
                     scanner.nextLine(); // konsumujemy znak nowej linii
                     Product product = new Product(name, quantity);
                     inventory.addProduct(product);
-                    fileManager.writeInventoryToFile(inventory.products);
+                    FileManager.writeInventoryToFile(inventory.products);
                     System.out.println("Dodano produkt " + product.getName());
                     break;
                 case 3:
@@ -53,7 +53,7 @@ public class Main {
                     inventory.removeProduct(name, quantityToRemove);
                     break;
                 case 0:
-                    fileManager.writeInventoryToFile(inventory.products);
+                    FileManager.writeInventoryToFile(inventory.products);
                     System.out.println("Wyjście z programu.");
                     return;
                 default:
